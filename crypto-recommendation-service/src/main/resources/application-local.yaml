@@ -1,0 +1,3 @@
+#Change to the actual location of price storage
+storage-path: ${STORAGE_PATH:C:\Users\Maksim_Radzevich\IdeaProjects\07 crypto-recommendation-service\prices}
+currencies: BTC, DOGE, ETH, LTC, XRP

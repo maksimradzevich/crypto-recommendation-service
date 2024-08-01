@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: crypto-recommendation-service-configmap
+    namespace: crypto-recommendation-service
+data:
+    storage-path: "/storage/"
+    currencies: "BTC, DOGE, ETH, LTC, XRP"

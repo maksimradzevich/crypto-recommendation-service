@@ -1,0 +1,2 @@
+storage-path: classpath:test-prices
+currencies: BTC, DOGE, ETH, LTC, XRP

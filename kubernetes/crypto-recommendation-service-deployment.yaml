@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: crypto-recommendation-service
+    namespace: crypto-recommendation-service
+    labels:
+        app: crypto-recommendation-service
+spec:
+    replicas: 3
+    selector:
+        matchLabels:
+            app: crypto-recommendation-service
+    template:
+        metadata:
+            name: crypto-recommendation-service
+            labels:
+                app: crypto-recommendation-service
+        spec:
+            containers:
+                -   name: crypto-recommendation-service
+                    image: com.xm/crypto-recommendation-service:0.0.1-SNAPSHOT
+                    imagePullPolicy: IfNotPresent
+                    ports:
+                        -   containerPort: 8080
+                            protocol: TCP
+                    volumeMounts:
+                        -   mountPath: /storage
+                            name: storage
+                    env:
+                        -   name: STORAGE_PATH
+                            valueFrom:
+                                configMapKeyRef:
+                                    name: crypto-recommendation-service-configmap
+                                    key: storage-path
+                        -   name: CURRENCIES
+                            valueFrom:
+                                configMapKeyRef:
+                                    name: crypto-recommendation-service-configmap
+                                    key: currencies
+                    livenessProbe:
+                        httpGet:
+                            path: /actuator/health/liveness
+                            port: 8080
+                        initialDelaySeconds: 3
+                        periodSeconds: 3
+                    startupProbe:
+                        httpGet:
+                            path: /actuator/health/liveness
+                            port: 8080
+                        initialDelaySeconds: 10
+                        periodSeconds: 5
+                    readinessProbe:
+                        httpGet:
+                            path: /actuator/health/readiness
+                            port: 8080
+                        initialDelaySeconds: 5
+                        periodSeconds: 5
+            volumes:
+                -   name: storage
+                    persistentVolumeClaim:
+                        claimName: pv-claim
+            restartPolicy: Always
+      

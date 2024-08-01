@@ -1,0 +1,12 @@
+spring:
+    application:
+        name: crypto-recommendation-service
+
+management:
+    endpoint:
+        health:
+            probes:
+                enabled: true
+
+storage-path: ${STORAGE_PATH}
+currencies: ${CURRENCIES}
